@@ -1,0 +1,12 @@
+Nome: 
+Kaerius
+Vida:  
+200
+Classe: 
+Guerreiro
+Nome: 
+Haldir
+Vida:  
+300
+Classe: 
+Mago
