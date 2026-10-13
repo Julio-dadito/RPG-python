@@ -9,7 +9,7 @@ from random import shuffle
 install()
 
 arquiv = "Personas.txt"
-versao = "v0.7"
+versao = "v0.76"
 
 personagens = []
 a = "S"
