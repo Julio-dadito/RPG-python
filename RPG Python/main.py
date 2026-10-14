@@ -9,7 +9,7 @@ from random import shuffle
 install()
 
 arquiv = "Personas.txt"
-versao = "v0.76"
+versao = "v0.761"
 
 personagens = []
 a = "S"
@@ -46,7 +46,8 @@ while a in "S":
             "( [yellow]2[/] ) Criar novo personagem\n"
             "| [blue]3[/] | Salvar Personagem\n"
             "| [blue3]4[/] | Importar Personagem\n"
-            "[ [red]5[/] ] BATALHA")
+            "[ [red]5[/] ] BATALHA\n"
+            "[deep_pink4]< 6 > Sair[/]")
       perg1 = int(input(">"))
       print()
 
@@ -172,121 +173,160 @@ while a in "S":
                   sleep(0.3)
 
          case 5: # BATALHA ---------------------------
-            break
 
-# batalha --------------
-   print("[red]-<[/] Entao partiremos a batalha! [red]>-[/]")
-   sleep(0.5)
+            print("[red]-<[/] Entao partiremos a batalha! [red]>-[/]")
+            sleep(0.5)
 
-   while True:
-      print("Como sera a batalha? \n"
-            "[yellow]( [red]1 [yellow]) [dark_orange]Todos contra todos \n"
-            "[blue]( [red]2 [magenta])[dark_orange] Times \n"
-            "[bright_black]( [red]3 [bright_black])[dark_orange] Contra PC[/]")
-      bat = int(input(">"))
+            while True:
 
-      if bat == 1:
-         print(f"{'--Todos contra todos--':^50}")
-         sleep(0.4)
+               print("Como sera a batalha? \n"
+                        "[yellow]( [red]1 [yellow]) [dark_orange]Todos contra todos \n"
+                        "[blue]( [red]2 [magenta])[dark_orange] Times \n"
+                        "[bright_black]( [red]3 [bright_black])[dark_orange] Contra PC[/]")
+               bat = int(input(">"))
 
-         shuffle(personagens)
-
-         print(f"Ordem de acoes:\n")
-
-         for p, i in enumerate(personagens):
-
-            print(f"{p} - {i.Ficha()}")
-            sleep(0.3)
-
-         todmor = 0
-         todvis = True
-         while todvis:
-
-            turnos = 0
-
-            for i in personagens:
-
-               print(f"Turno de {i.nome}")
-
-               i.Ficha(painel=True)
-
-               if i.vida <= 0:
-                  print(f"[red]{i.nome} esta morto [/]:skull:")
-                  sleep(0.3)
-                  todmor += 1
-
+               if bat == 1 or bat == 2 or bat == 3:
+                  break
                else:
+                  print("Escolha invalida")
 
-                  print(f"Qual Acao [blue]{i.nome}[/] fara? \n"
-                          f"( [cyan]1[/] ) [cyan]Atacar :knife:[/]\n"
-                          f"( [green]2[/] ) [green]Curar :heart:[/]\n")
-                  aca = int(input(">"))
+            if bat == 1: # todos contra todos -----------------------
+               print(f"{'--Todos contra todos--':^50}")
+               sleep(0.4)
 
-                  match aca:
-                     case 1:
+               shuffle(personagens)
 
-                        alv = -1
-                        while alv == -1:
+               print(f"Ordem de acoes:\n")
 
-                           print(f"Quem [blue]{i.nome}[/] ira atacar?")
-      # lista de alvos usa o O -------------------------------
-                           for p, o in enumerate(personagens):
+               for p, i in enumerate(personagens):
 
-                              if o.nome != i.nome:
-                                 print(f"( {p} )  {o.nome}")
-                                 sleep(0.3)
+                  print(f"{p} - {i.Ficha()}")
+                  sleep(0.3)
 
-      # no final pergunta quem vai atacar ----------------------
+               # variaveis da batalha:
+               ndmorts = 0
+               emgame = True
+               turnos = 0
+               while True:
 
-                              if p == len(personagens) - 1:
+                  ndmorts = 0
 
-                                 alv = int(input(">"))
+# comeca turno ----------------------------------------------------------------
+                  for i in personagens: # turnos
 
-      # caso seja maior q a lista ------------------------------------
-                              if alv > len(personagens)-1:
-                                 print("[red]Esse alvo nao existe[/]")
-                                 alv = -1
+                     print(f"Turno de {i.nome}")
 
-      # se nao varre a lista e coloca o alvo no O -------------------
-                        for p, o in enumerate(personagens):
-                           if alv == p:
-                                 alv = o
+                     i.Ficha(painel=True)
 
-                        dan = int(input("Quanto de dano voce vai tentar dar?"))
+                     if i.vida <= 0: # morto no inicio do turno
+                        print(f"[red]{i.nome} esta morto [/]:skull:")
+                        sleep(0.3)
+                        ndmorts += 1
 
-                        i.Atacar(alv, dan)
-                        if alv.vida == 0:
-                           todmor += 1
+                     else:
 
-                        sleep(0.5)
+                        print(f"Qual Acao [blue]{i.nome}[/] fara? \n"
+                                   f"( [cyan]1[/] ) [cyan]Atacar :knife:[/]\n"
+                                   f"( [green]2[/] ) [green]Curar :heart:[/]\n")
+                        aca = int(input(">"))
 
-                     case 2:
+                        match aca:
+                           case 1:
 
-                        i.Curar()
-                        sleep(0.5)
+                              alv = -1
+                              while alv == -1:
 
-            if todmor == len(personagens)-1:
+                                 print(f"Quem [blue]{i.nome}[/] ira atacar?")
+               # lista de alvos usa o O -------------------------------
+                                 for p, o in enumerate(personagens):
 
-               for o in personagens:
-                  if o.vida > 0:
-                     print(f"O vencedor e {o.nome}")
-                     sleep(0.5)
-                     print("\nBatalha encerrada")
-                     sleep(0.5)
-               todvis = False
-               break
+                                    if o.nome != i.nome:
+                                       print(f"( {p} )  {o.nome}")
+                                       sleep(0.3)
 
-            todmor = 0
-            turnos += 1
-            print(f"--- 1 Turno passa --- \n"
-                  f"Turno atutal : {turnos+1}")
+               # no final pergunta quem vai atacar ----------------------
 
-      elif bat == 2:
-         print("")
-      elif bat == 3:
-         pass
-      else:
-         print("Escolha nao encontrada")
+                                    if p == len(personagens) - 1:
+
+                                       alv = int(input(">"))
+
+               # caso seja maior q a lista ------------------------------------
+                                    if alv > len(personagens)-1:
+                                       print("[red]Esse alvo nao existe[/]")
+                                       alv = -1
+
+               # se nao varre a lista e coloca o alvo no O -------------------
+                              for p, o in enumerate(personagens):
+                                 if alv == p:
+                                       alv = o
+
+                              dan = int(input("Quanto de dano voce vai tentar dar?"))
+
+                              i.Atacar(alv, dan)
+
+                              if alv.vida == 0: # morreu pelo ataque
+                                 ndmorts += 1
+
+                              sleep(0.5)
+
+                           case 2:
+
+                              i.Curar()
+                              sleep(0.5)
+
+                     if ndmorts == len(personagens)-1: # a cada fim de turno chega se sobra um personagem vivo
+
+                        for o in personagens:
+                           if o.vida > 0: # quem ainda tem vida
+                              print(f"O vencedor e [magenta]{o.nome}[/]")
+                              sleep(0.5)
+                              print("\nBatalha encerrada\n")
+                              sleep(0.5)
+                              emgame = False
+
+                     if not emgame:
+                        break
+# termina turno ------------------------------------------------------
+
+                  if not emgame:
+                     break
+
+                  turnos += 1
+                  print(f"--- 1 Turno passa --- ")
+                  sleep(0.6)
+                  print(f"Turno atual : {turnos+1}\n")
+                  sleep(0.6)
+
+            elif bat == 2 and len(personagens) >= 3:
+
+               print("Quantos times tera?")
+
+               if len(personagens) >= 3:
+                  print("( 2 ) Dois Times\n")
+                  dT = True
+               if len(personagens) >= 4:
+                  print("( 3 ) Tres Times\n")
+                  tT = True
+
+               numti = int(input(">"))
+
+               print("Havera fogo amigo? S/N  >", end="")
+               friendfire = str(input(""))
+
+               print("batalha modo time ainda em construcao....\n")
+               sleep(0.5)
+
+            elif bat == 2:
+               print("[red]Numero invalido de personagens para modo time[/]")
+               sleep(0.5)
+
+            elif bat == 3:
+               print("batalha contra PC ainda em construcao...\n")
+               sleep(0.5)
+
+         case 6:
+            a = "N"
+            break
 
 
 print("Ate mais ver, guerreiro")
